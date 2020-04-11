@@ -1,12 +1,24 @@
 package br.com.gustavoantunes.service_habitosconsumerweb.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class ObjetivoFormCadastroDTO {
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class ObjetivoFormCadastroDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+	@NotEmpty
+	@NotNull
 	private String nome;
 	private String descricao;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataInicio;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataConclusao;
 	private String imagem;
 

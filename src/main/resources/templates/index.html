@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Hábitos Web</title>
-</head>
-<body>
-<a href="/objetivo">Cadastrar novo Objetivo</a>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head"></head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Side Bar -->
+		<div th:include="fragments/sidebar"></div>
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Top Bar -->
+				<div th:include="fragments/topbar"></div>
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<!-- Page Heading -->
+					<h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- End of Main Content -->
+			<!-- Footer -->
+			<div th:include="fragments/footer"></div>
+		</div>
+		<!-- End of Content Wrapper -->
+	</div>
+	<!-- End of Page Wrapper -->
+	<div th:include="fragments/logout-modal"></div>
+	<div th:include="fragments/scripts"></div>
 </body>
+
 </html>
