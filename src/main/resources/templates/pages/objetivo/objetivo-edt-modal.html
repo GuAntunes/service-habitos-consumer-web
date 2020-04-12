@@ -1,35 +1,35 @@
-<div class="modal fade" id="cadObjetivoModal" tabindex="-1"
-	role="dialog" aria-labelledby="cadObjetivoModalLabel"
+<div class="modal fade" id="edtObjetivoModal" tabindex="-1"
+	role="dialog" aria-labelledby="edtObjetivoModalLabel"
 	aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Novo Objetivo</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Editar Objetivo</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<form th:action="@{/objetivo}" th:object="${objetivo}" method="POST">
+				<form id="formEdt" th:action="@{/objetivo/atualizar/{id}}" th:object="${objetivo}" method="post">
 					<div class="form-group">
 						<label for="objetivoNome" class="col-form-label">Nome:</label> <input
-							type="text" class="form-control" name="nome" id="objetivoNome"
+							type="text" class="form-control" name="nome" id="objetivoNomeEdt"
 							th:value='${objetivo.nome}'>
 					</div>
 					<div class="form-group">
 						<label for="objetivoDescricao" class="col-form-label">Message:</label>
 						<textarea class="form-control" name="descricao"
-							th:value="${objetivo.descricao}" id="objetivoDescricao"></textarea>
+							th:value="${objetivo.descricao}" id="objetivoDescricaoEdt"></textarea>
 					</div>
 					<div class="form-group">
 						<label for="objetivoDataInicio" class="col-form-label">Data Inicio:</label> <input
-							type="date" class="form-control" name="dataInicio" id="objetivoDataInicio"
+							type="date" class="form-control" name="dataInicio" id="objetivoDataInicioEdt"
 							th:value='${objetivo.dataInicio}'>
 					</div>
 					<div class="form-group">
 						<label for="objetivoDataConclusao" class="col-form-label">Data Conclusão:</label> <input
-							type="date" class="form-control" name="dataConclusao" id="objetivoDataConclusao"
+							type="date" class="form-control" name="dataConclusao" id="objetivoDataConclusaoEdt"
 							th:value='${objetivo.dataConclusao}'>
 					</div>
 					<div class="modal-footer">

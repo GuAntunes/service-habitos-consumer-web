@@ -15,10 +15,12 @@
 				<div th:include="fragments/topbar"></div>
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-					<a href="#" class="btn btn-success btn-icon-split mb-3"  data-toggle="modal" data-target="#logoutModal"> <span
+					<a href="#" class="btn btn-success btn-icon-split mb-3"
+						data-toggle="modal" data-target="#cadObjetivoModal"> <span
 						class="icon text-white-50"> <i class="fas fa-plus"></i>
 					</span> <span class="text">Novo Objetivo</span>
 					</a>
+
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">Lista de
@@ -26,33 +28,60 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table table-striped table-bordered"
+									id="tableObjetivos" width="100%" cellspacing="0">
 									<thead>
 										<tr>
+											<th hidden="true">id</th>
 											<th>Objetivo</th>
 											<th>Descrição</th>
 											<th>Data Inicio</th>
 											<th>Data Conclusão</th>
 											<th>Status</th>
+											<th>Ações</th>
 										</tr>
 									</thead>
 									<tfoot>
+
 										<tr>
+											<th hidden="true">id</th>
 											<th>Objetivo</th>
 											<th>Descrição</th>
 											<th>Data Inicio</th>
 											<th>Data Conclusão</th>
 											<th>Status</th>
+											<th>Ações</th>
 										</tr>
 									</tfoot>
 									<tbody>
 										<tr th:each="objetivo : ${objetivos}">
+											<td hidden="true" th:text='${objetivo.id}'></td>
 											<td th:text='${objetivo.nome}'></td>
 											<td th:text='${objetivo.descricao}'></td>
 											<td th:text='${objetivo.dataInicio}'></td>
 											<td th:text='${objetivo.dataConclusao}'></td>
 											<td th:text='${objetivo.status}'></td>
+											<td>
+												<form id="formDetalhar"
+													th:action="@{/meta/objetivo/} + ${objetivo.id}"
+													method="GET">
+													<button type="submit" class="btn btn-primary">
+														<i class="far fa-eye"></i>
+													</button>
+												</form>
+												<button onclick="editar(this)" type="button"
+													class="btn btn-success" data-toggle="modal"
+													data-target="#edtObjetivoModal">
+													<i class="fas fa-edit"></i>
+												</button>
+												<form id="formRemover"
+													th:action="@{/objetivo/remover/} + ${objetivo.id}"
+													method="post">
+													<button type="submit" class="btn btn-danger">
+														<i class="far fa-trash-alt"></i>
+													</button>
+												</form>
+											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -72,6 +101,23 @@
 	<!-- End of Page Wrapper -->
 	<div th:include="fragments/logout-modal"></div>
 	<div th:include="fragments/scripts"></div>
+	<div th:include="pages/objetivo/objetivo-cad-modal"></div>
+	<div th:include="pages/objetivo/objetivo-edt-modal"></div>
+	<script>
+		function editar(e) {
+			var _row = $(e).parents("tr");
+			console.log(_row);
+			var cols = _row.children("td");
+			console.log(cols);
+			$("#objetivoNomeEdt").val($(cols[1]).text());
+			$("#objetivoDescricaoEdt").val($(cols[2]).text());
+			$("#objetivoDataInicioEdt").val($(cols[3]).text());
+			$("#objetivoDataConclusaoEdt").val($(cols[4]).text());
+			$('#formEdt').attr('action',
+					'/objetivo/atualizar/' + $(cols[0]).text());
+
+		}
+	</script>
 </body>
 
 </html>
