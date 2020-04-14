@@ -3,11 +3,12 @@ package br.com.gustavoantunes.service_habitosconsumerweb.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
-public class ObjetivoDTO implements Serializable{
+public class ObjetivoDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
 	private String nome;
 	private String descricao;
@@ -15,6 +16,7 @@ public class ObjetivoDTO implements Serializable{
 	private LocalDate dataInicio;
 	private LocalDate dataConclusao;
 	private String status;
+	private List<MetaDTO> metas;
 
 	public Long getId() {
 		return id;
@@ -70,6 +72,14 @@ public class ObjetivoDTO implements Serializable{
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public List<MetaDTO> getMetas() {
+		return metas;
+	}
+
+	public void setMetas(List<MetaDTO> metas) {
+		this.metas = metas;
 	}
 
 }

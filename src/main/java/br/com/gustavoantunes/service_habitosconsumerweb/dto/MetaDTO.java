@@ -2,32 +2,27 @@ package br.com.gustavoantunes.service_habitosconsumerweb.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-public class MetaFormCadastroDTO implements Serializable {
+public class MetaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotEmpty
-	@NotNull
+	private Long id;
 	private String nome;
 	private String descricao;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDateTime dataCriacao;
 	private LocalDate dataInicio;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataConclusao;
-	private String imagem;
+	private String status;
 	private Long objetivoId;
 
-	public MetaFormCadastroDTO(ObjetivoDTO objetivo) {
-		objetivoId = objetivo.getId();
+	public Long getId() {
+		return id;
 	}
-	
-	public MetaFormCadastroDTO() {
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -46,6 +41,14 @@ public class MetaFormCadastroDTO implements Serializable {
 		this.descricao = descricao;
 	}
 
+	public LocalDateTime getDataCriacao() {
+		return dataCriacao;
+	}
+
+	public void setDataCriacao(LocalDateTime dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
 	public LocalDate getDataInicio() {
 		return dataInicio;
 	}
@@ -62,12 +65,12 @@ public class MetaFormCadastroDTO implements Serializable {
 		this.dataConclusao = dataConclusao;
 	}
 
-	public String getImagem() {
-		return imagem;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Long getObjetivoId() {

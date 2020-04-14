@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import br.com.gustavoantunes.service_habitosconsumerweb.dto.MetaDTO;
+import br.com.gustavoantunes.service_habitosconsumerweb.dto.MetaFormCadastroDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.ObjetivoDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.ObjetivoFormCadastroDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.ObjetivoFormEdtDTO;
@@ -32,4 +34,7 @@ public interface HabitosClient {
 	
 	@GetMapping("/objetivo/{id}")
 	public ObjetivoDTO detalhar(@PathVariable Long id); 
+	
+	@PostMapping("/meta")
+	public MetaDTO cadastrarMeta(MetaFormCadastroDTO metaForm);
 }
