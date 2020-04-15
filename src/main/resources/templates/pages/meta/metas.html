@@ -75,23 +75,28 @@
 												<!-- 												<form id="formDetalhar" --> <!-- 													th:action="@{/meta/objetivo/} + ${objetivo.id}" -->
 												<!-- 													method="GET"> --> <!-- 													<button type="submit" class="btn btn-primary"> -->
 												<!-- 														<i class="far fa-eye"></i> --> <!-- 													</button> -->
-												<!-- 												</form> --> <!-- 												<button onclick="editar(this)" type="button" -->
-												<!-- 													class="btn btn-success" data-toggle="modal" -->
-												<!-- 													data-target="#edtObjetivoModal"> --> <!-- 													<i class="fas fa-edit"></i> -->
-												<!-- 												</button> --> <!-- 												<form id="formRemover" -->
-												<!-- 													th:action="@{/objetivo/remover/} + ${objetivo.id}" -->
-												<!-- 													method="post"> --> <!-- 													<button type="submit" class="btn btn-danger"> -->
-												<!-- 														<i class="far fa-trash-alt"></i> --> <!-- 													</button> -->
 												<!-- 												</form> -->
+												<button onclick="editar(this)" type="button"
+													class="btn btn-success" data-toggle="modal"
+													data-target="#edtMetaModal">
+													<i class="fas fa-edit"></i>
+												</button>
+												<form id="formRemover"
+													th:action="@{/meta/remover/} + ${meta.id}"
+													method="post">
+													<button type="submit" class="btn btn-danger">
+														<i class="far fa-trash-alt"></i>
+													</button>
+												</form>
 											</td>
 										</tr>
 									</tbody>
 								</table>
 								<a href="#" class="btn btn-success btn-icon-split mb-3"
-						data-toggle="modal" data-target="#cadMetaModal"> <span
-						class="icon text-white-50"> <i class="fas fa-plus"></i>
-					</span> <span class="text">Nova Meta</span>
-					</a>
+									data-toggle="modal" data-target="#cadMetaModal"> <span
+									class="icon text-white-50"> <i class="fas fa-plus"></i>
+								</span> <span class="text">Nova Meta</span>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -108,6 +113,20 @@
 	<div th:include="fragments/logout-modal"></div>
 	<div th:include="fragments/scripts"></div>
 	<div th:include="pages/meta/meta-cad-modal"></div>
+	<div th:include="pages/meta/meta-edt-modal"></div>
+	<script>
+		function editar(e) {
+			var _row = $(e).parents("tr");
+			var cols = _row.children("td");
+			$("#metaNomeEdt").val($(cols[1]).text());
+			$("#metaDescricaoEdt").val($(cols[2]).text());
+			$("#metaDataInicioEdt").val($(cols[3]).text());
+			$("#metaDataConclusaoEdt").val($(cols[4]).text());
+			$('#formEdt')
+					.attr('action', '/meta/atualizar/' + $(cols[0]).text());
+
+		}
+	</script>
 </body>
 
 </html>

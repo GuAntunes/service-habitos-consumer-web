@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.MetaDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.MetaFormCadastroDTO;
+import br.com.gustavoantunes.service_habitosconsumerweb.dto.MetaFormEdtDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.ObjetivoDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.ObjetivoFormCadastroDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.ObjetivoFormEdtDTO;
@@ -37,4 +38,13 @@ public interface HabitosClient {
 	
 	@PostMapping("/meta")
 	public MetaDTO cadastrarMeta(MetaFormCadastroDTO metaForm);
+	
+	@PutMapping("/meta/{id}")
+	MetaDTO atualizarMeta(@PathVariable Long id, MetaFormEdtDTO edt);
+	
+	@DeleteMapping("/meta/{id}")
+	public ResponseEntity<?> removerMeta(@PathVariable Long id);
+	
+	@GetMapping("/meta/{id}")
+	public MetaDTO detalharMeta(@PathVariable Long id);
 }

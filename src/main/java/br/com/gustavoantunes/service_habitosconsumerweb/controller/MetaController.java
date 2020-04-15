@@ -14,6 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import br.com.gustavoantunes.service_habitosconsumerweb.client.HabitosClient;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.MetaDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.MetaFormCadastroDTO;
+import br.com.gustavoantunes.service_habitosconsumerweb.dto.MetaFormEdtDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.ObjetivoDTO;
 
 @Controller
@@ -38,6 +39,25 @@ public class MetaController {
 
 		MetaDTO metaDTO = habitosClient.cadastrarMeta(metaForm);
 		return new ModelAndView(new RedirectView("/meta/objetivo/" + metaDTO.getObjetivoId()), model.asMap());
+	}
+
+	@PostMapping("/atualizar/{id}")
+	public ModelAndView alterarMeta(Model model, @PathVariable("id") Long id,
+			@ModelAttribute("meta") MetaFormEdtDTO metaForm) {
+
+		MetaDTO metaDTO = habitosClient.atualizarMeta(id, metaForm);
+
+		return new ModelAndView(new RedirectView("/meta/objetivo/" + metaDTO.getObjetivoId()), model.asMap());
+	}
+	
+	@PostMapping("/remover/{id}")
+	public ModelAndView deletarObjetivo(Model model, @PathVariable("id") Long id) {
+		
+		MetaDTO meta = habitosClient.detalharMeta(id);
+		
+		habitosClient.removerMeta(id);
+		
+		return new ModelAndView(new RedirectView("/meta/objetivo/" + meta.getObjetivoId()), model.asMap());
 	}
 
 }
