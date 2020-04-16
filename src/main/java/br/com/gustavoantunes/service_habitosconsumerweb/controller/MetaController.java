@@ -35,7 +35,7 @@ public class MetaController {
 	}
 
 	@PostMapping
-	public ModelAndView cadastrarMeta(Model model, @ModelAttribute("objetivo") MetaFormCadastroDTO metaForm) {
+	public ModelAndView cadastrarMeta(Model model, @ModelAttribute("meta") MetaFormCadastroDTO metaForm) {
 
 		MetaDTO metaDTO = habitosClient.cadastrarMeta(metaForm);
 		return new ModelAndView(new RedirectView("/meta/objetivo/" + metaDTO.getObjetivoId()), model.asMap());
@@ -51,7 +51,7 @@ public class MetaController {
 	}
 	
 	@PostMapping("/remover/{id}")
-	public ModelAndView deletarObjetivo(Model model, @PathVariable("id") Long id) {
+	public ModelAndView deletarMeta(Model model, @PathVariable("id") Long id) {
 		
 		MetaDTO meta = habitosClient.detalharMeta(id);
 		

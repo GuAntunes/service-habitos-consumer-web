@@ -17,6 +17,9 @@ import br.com.gustavoantunes.service_habitosconsumerweb.dto.MetaFormEdtDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.ObjetivoDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.ObjetivoFormCadastroDTO;
 import br.com.gustavoantunes.service_habitosconsumerweb.dto.ObjetivoFormEdtDTO;
+import br.com.gustavoantunes.service_habitosconsumerweb.dto.TarefaDTO;
+import br.com.gustavoantunes.service_habitosconsumerweb.dto.TarefaFormCadastroDTO;
+import br.com.gustavoantunes.service_habitosconsumerweb.dto.TarefaFormEdtDTO;
 
 @FeignClient("habitos")
 public interface HabitosClient {
@@ -47,4 +50,16 @@ public interface HabitosClient {
 	
 	@GetMapping("/meta/{id}")
 	public MetaDTO detalharMeta(@PathVariable Long id);
+	
+	@PostMapping("/tarefa")
+	public TarefaDTO cadastrarTarefa(TarefaFormCadastroDTO tarefaForm);
+	
+	@PutMapping("/tarefa/{id}")
+	TarefaDTO atualizarTarefa(@PathVariable Long id, TarefaFormEdtDTO edt);
+	
+	@DeleteMapping("/tarefa/{id}")
+	public ResponseEntity<?> removerTarefa(@PathVariable Long id);
+	
+	@GetMapping("/tarefa/{id}")
+	public TarefaDTO detalharTarefa(@PathVariable Long id);
 }

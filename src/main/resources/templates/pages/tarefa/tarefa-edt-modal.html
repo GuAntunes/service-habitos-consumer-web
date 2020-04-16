@@ -1,0 +1,44 @@
+<div class="modal fade" id="edtTarefaModal" tabindex="-1"
+	role="dialog" aria-labelledby="edtTarefaModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Editar Tarefa</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form id="formEdt" th:action="@{/tarefa/atualizar/{id}}" th:object="${tarefa}" method="post">
+					<div class="form-group">
+						<label for="tarefaNome" class="col-form-label">Nome:</label> <input
+							type="text" class="form-control" name="nome" id="tarefaNomeEdt"
+							th:value='${tarefa.nome}'>
+					</div>
+					<div class="form-group">
+						<label for="tarefaDescricao" class="col-form-label">Message:</label>
+						<textarea class="form-control" name="descricao"
+							th:value="${tarefa.descricao}" id="tarefaDescricaoEdt"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="tarefaDataInicio" class="col-form-label">Data Inicio:</label> <input
+							type="date" class="form-control" name="dataInicio" id="tarefaDataInicioEdt"
+							th:value='${tarefa.dataInicio}'>
+					</div>
+					<div class="form-group">
+						<label for="tarefaDataConclusao" class="col-form-label">Data Conclusão:</label> <input
+							type="date" class="form-control" name="dataConclusao" id="tarefaDataConclusaoEdt"
+							th:value='${tarefa.dataConclusao}'>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Fechar</button>
+						<button type="submit" class="btn btn-primary">Enviar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -2,29 +2,32 @@ package br.com.gustavoantunes.service_habitosconsumerweb.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
-public class MetaDTO implements Serializable {
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class TarefaFormEdtDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	@NotEmpty
+	@NotNull
 	private String nome;
 	private String descricao;
-	private LocalDateTime dataCriacao;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataInicio;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataConclusao;
-	private String status;
-	private Long objetivoId;
-	private List<TarefaDTO> tarefas;
+	private String imagem;
+	private Long metaId;
 
-	public Long getId() {
-		return id;
+	public TarefaFormEdtDTO(MetaDTO meta) {
+		metaId = meta.getId();
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public TarefaFormEdtDTO() {
 	}
 
 	public String getNome() {
@@ -43,14 +46,6 @@ public class MetaDTO implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public LocalDateTime getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(LocalDateTime dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
 	public LocalDate getDataInicio() {
 		return dataInicio;
 	}
@@ -67,28 +62,20 @@ public class MetaDTO implements Serializable {
 		this.dataConclusao = dataConclusao;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getImagem() {
+		return imagem;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 
-	public Long getObjetivoId() {
-		return objetivoId;
+	public Long getMetaId() {
+		return metaId;
 	}
 
-	public void setObjetivoId(Long objetivoId) {
-		this.objetivoId = objetivoId;
-	}
-
-	public List<TarefaDTO> getTarefas() {
-		return tarefas;
-	}
-
-	public void setTarefas(List<TarefaDTO> tarefas) {
-		this.tarefas = tarefas;
+	public void setMetaId(Long metaId) {
+		this.metaId = metaId;
 	}
 
 }

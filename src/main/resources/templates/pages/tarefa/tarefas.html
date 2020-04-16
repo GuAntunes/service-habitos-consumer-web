@@ -18,18 +18,16 @@
 
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">Objetivo -
-								[[${objetivo.status}]]</h6>
+							<h6 class="m-0 font-weight-bold text-primary">Meta -
+								[[${meta.status}]]</h6>
 						</div>
 						<div class="card-body text-dark">
-							<h5 class="card-title font-weight-bold">[[${objetivo.nome}]]</h5>
-							<p class="card-text">Descrição: [[${objetivo.descricao}]]</p>
-							<p class="card-text">Data Criação:
-								[[${objetivo.dataCriacao}]]</p>
-							<p class="card-text">Data de Inicio:
-								[[${objetivo.dataInicio}]]</p>
+							<h5 class="card-title font-weight-bold">[[${meta.nome}]]</h5>
+							<p class="card-text">Descrição: [[${meta.descricao}]]</p>
+							<p class="card-text">Data Criação: [[${meta.dataCriacao}]]</p>
+							<p class="card-text">Data de Inicio: [[${meta.dataInicio}]]</p>
 							<p class="card-text">Data de Conclusão:
-								[[${objetivo.dataConclusao}]]</p>
+								[[${meta.dataConclusao}]]</p>
 						</div>
 					</div>
 					<div class="card shadow mb-4">
@@ -64,28 +62,25 @@
 										</tr>
 									</tfoot>
 									<tbody>
-										<tr th:each="meta : ${objetivo.metas}">
-											<td hidden="true" th:text='${meta.id}'></td>
-											<td th:text='${meta.nome}'></td>
-											<td th:text='${meta.descricao}'></td>
-											<td th:text='${meta.dataInicio}'></td>
-											<td th:text='${meta.dataConclusao}'></td>
-											<td th:text='${meta.status}'></td>
+										<tr th:each="tarefa : ${meta.tarefas}">
+											<td hidden="true" th:text='${tarefa.id}'></td>
+											<td th:text='${tarefa.nome}'></td>
+											<td th:text='${tarefa.descricao}'></td>
+											<td th:text='${tarefa.dataInicio}'></td>
+											<td th:text='${tarefa.dataConclusao}'></td>
+											<td th:text='${tarefa.status}'></td>
 											<td>
-												<form id="formDetalhar"
-													th:action="@{/tarefa/meta/} + ${meta.id}"
-													method="GET">
-													<button type="submit" class="btn btn-primary">
-														<i class="far fa-eye"></i>
-													</button>
-												</form>
+												<!-- 												<form id="formDetalhar" --> <!-- 													th:action="@{/meta/objetivo/} + ${objetivo.id}" -->
+												<!-- 													method="GET"> --> <!-- 													<button type="submit" class="btn btn-primary"> -->
+												<!-- 														<i class="far fa-eye"></i> --> <!-- 													</button> -->
+												<!-- 												</form> -->
 												<button onclick="editar(this)" type="button"
 													class="btn btn-success" data-toggle="modal"
-													data-target="#edtMetaModal">
+													data-target="#edtTarefaModal">
 													<i class="fas fa-edit"></i>
 												</button>
 												<form id="formRemover"
-													th:action="@{/meta/remover/} + ${meta.id}"
+													th:action="@{/tarefa/remover/} + ${tarefa.id}"
 													method="post">
 													<button type="submit" class="btn btn-danger">
 														<i class="far fa-trash-alt"></i>
@@ -96,9 +91,9 @@
 									</tbody>
 								</table>
 								<a href="#" class="btn btn-success btn-icon-split mb-3"
-									data-toggle="modal" data-target="#cadMetaModal"> <span
+									data-toggle="modal" data-target="#cadTarefaModal"> <span
 									class="icon text-white-50"> <i class="fas fa-plus"></i>
-								</span> <span class="text">Nova Meta</span>
+								</span> <span class="text">Nova Tarefa</span>
 								</a>
 							</div>
 						</div>
@@ -115,18 +110,18 @@
 	<!-- End of Page Wrapper -->
 	<div th:include="fragments/logout-modal"></div>
 	<div th:include="fragments/scripts"></div>
-	<div th:include="pages/meta/meta-cad-modal"></div>
-	<div th:include="pages/meta/meta-edt-modal"></div>
+	<div th:include="pages/tarefa/tarefa-cad-modal"></div>
+	<div th:include="pages/tarefa/tarefa-edt-modal"></div>
 	<script>
 		function editar(e) {
 			var _row = $(e).parents("tr");
 			var cols = _row.children("td");
-			$("#metaNomeEdt").val($(cols[1]).text());
-			$("#metaDescricaoEdt").val($(cols[2]).text());
-			$("#metaDataInicioEdt").val($(cols[3]).text());
-			$("#metaDataConclusaoEdt").val($(cols[4]).text());
+			$("#tarefaNomeEdt").val($(cols[1]).text());
+			$("#tarefaDescricaoEdt").val($(cols[2]).text());
+			$("#tarefaDataInicioEdt").val($(cols[3]).text());
+			$("#tarefaDataConclusaoEdt").val($(cols[4]).text());
 			$('#formEdt')
-					.attr('action', '/meta/atualizar/' + $(cols[0]).text());
+					.attr('action', '/tarefa/atualizar/' + $(cols[0]).text());
 
 		}
 	</script>
