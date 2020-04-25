@@ -30,74 +30,54 @@
 								[[${meta.dataConclusao}]]</p>
 						</div>
 					</div>
-					<div class="card shadow mb-4">
-						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">Lista de Metas</h6>
-						</div>
-						<div class="card-body">
-							<div class="table-responsive">
-								<table class="table table-striped table-bordered"
-									id="tableObjetivos" width="100%" cellspacing="0">
-									<thead>
-										<tr>
-											<th hidden="true">id</th>
-											<th>Meta</th>
-											<th>Descrição</th>
-											<th>Data Inicio</th>
-											<th>Data Conclusão</th>
-											<th>Status</th>
-											<th>Ações</th>
-										</tr>
-									</thead>
-									<tfoot>
 
-										<tr>
-											<th hidden="true">id</th>
-											<th>Meta</th>
-											<th>Descrição</th>
-											<th>Data Inicio</th>
-											<th>Data Conclusão</th>
-											<th>Status</th>
-											<th>Ações</th>
-										</tr>
-									</tfoot>
-									<tbody>
-										<tr th:each="tarefa : ${meta.tarefas}">
-											<td hidden="true" th:text='${tarefa.id}'></td>
-											<td th:text='${tarefa.nome}'></td>
-											<td th:text='${tarefa.descricao}'></td>
-											<td th:text='${tarefa.dataInicio}'></td>
-											<td th:text='${tarefa.dataConclusao}'></td>
-											<td th:text='${tarefa.status}'></td>
-											<td>
-												<!-- 												<form id="formDetalhar" --> <!-- 													th:action="@{/meta/objetivo/} + ${objetivo.id}" -->
-												<!-- 													method="GET"> --> <!-- 													<button type="submit" class="btn btn-primary"> -->
-												<!-- 														<i class="far fa-eye"></i> --> <!-- 													</button> -->
-												<!-- 												</form> -->
-												<button onclick="editar(this)" type="button"
-													class="btn btn-success" data-toggle="modal"
-													data-target="#edtTarefaModal">
-													<i class="fas fa-edit"></i>
-												</button>
-												<form id="formRemover"
-													th:action="@{/tarefa/remover/} + ${tarefa.id}"
-													method="post">
-													<button type="submit" class="btn btn-danger">
-														<i class="far fa-trash-alt"></i>
-													</button>
-												</form>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								<a href="#" class="btn btn-success btn-icon-split mb-3"
-									data-toggle="modal" data-target="#cadTarefaModal"> <span
-									class="icon text-white-50"> <i class="fas fa-plus"></i>
-								</span> <span class="text">Nova Tarefa</span>
-								</a>
+					<a href="#" class="btn btn-success btn-icon-split mb-3"
+						data-toggle="modal" data-target="#cadTarefaModal"> <span
+						class="icon text-white-50"> <i class="fas fa-plus"></i>
+					</span> <span class="text">Nova Tarefa</span>
+					</a>
+					
+					<div class="card-deck">
+						<div class="row">
+						<div class="card col-xl-3 col-md-6 mb-4 border-info"  th:onclick="'editar(\'' + ${tarefa.id} + '\')'"   data-toggle="modal"
+								data-target="#edtTarefaModal" 
+							th:each="tarefa : ${meta.tarefas}">
+							<input type="hidden" th:id="'id' + ${tarefa.id}"
+								th:value='${tarefa.id}' /> <img src="/images/default-task.jpg"
+								class="card-img-top" alt="...">
+							<div class="card-body">
+								<h5 class="card-title" th:id="'nome' + ${tarefa.id}"
+									th:text='${tarefa.nome}'></h5>
+								<h6 class="card-title" th:id="'status' + ${tarefa.id}"
+									th:text='${tarefa.status}'></h6>
+								<p class="card-text" hidden="true" th:id="'descricao' + ${tarefa.id}"
+									th:text='${tarefa.descricao}'></p>
+							</div>
+							<div class="card-footer">
+								Data Início:
+								<p class="card-text" th:id="'dataInicio' + ${tarefa.id}"
+									th:text='${tarefa.dataInicio}'></p>
+								Data Conclusão:
+								<p class="card-text" th:id="'dataConclusao' + ${tarefa.id}"
+									th:text='${tarefa.dataConclusao}'></p>
+							</div>
+							<button th:onclick="'editar(\'' + ${tarefa.id} + '\')'"
+								type="button" class="btn btn-success mb-2" data-toggle="modal"
+								data-target="#edtTarefaModal">
+								<i class="fas fa-edit"></i>
+							</button>
+							<form th:id="'formRemover' + ${tarefa.id}"
+								th:action="@{/tarefa/remover/} + ${tarefa.id}" method="post"></form>
+							<button type="button" class="btn btn-danger"
+								th:onclick="'remover(\'' + ${tarefa.id} + '\')'">
+								<i class="far fa-trash-alt"></i>
+							</button>
+							
 							</div>
 						</div>
+
 					</div>
+
 				</div>
 				<!-- /.container-fluid -->
 			</div>
@@ -114,15 +94,17 @@
 	<div th:include="pages/tarefa/tarefa-edt-modal"></div>
 	<script>
 		function editar(e) {
-			var _row = $(e).parents("tr");
-			var cols = _row.children("td");
-			$("#tarefaNomeEdt").val($(cols[1]).text());
-			$("#tarefaDescricaoEdt").val($(cols[2]).text());
-			$("#tarefaDataInicioEdt").val($(cols[3]).text());
-			$("#tarefaDataConclusaoEdt").val($(cols[4]).text());
-			$('#formEdt')
-					.attr('action', '/tarefa/atualizar/' + $(cols[0]).text());
+			$("#tarefaNomeEdt").val($("#nome" + e).text());
+			$("#tarefaDescricaoEdt").val($("#descricao" + e).text());
+			$("#tarefaDataInicioEdt").val($("#dataInicio" + e).text());
+			console.log($("#tarefaDataInicioEdt").val());
+			$("#tarefaDataConclusaoEdt").val($("#dataConclusao" + e).text());
+			$('#formEdt').attr('action', '/tarefa/atualizar/' + e);
 
+		}
+
+		function remover(e) {
+			$('#formRemover' + e).submit();
 		}
 	</script>
 </body>

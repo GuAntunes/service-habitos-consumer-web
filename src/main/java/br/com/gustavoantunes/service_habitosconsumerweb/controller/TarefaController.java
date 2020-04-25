@@ -1,6 +1,8 @@
 package br.com.gustavoantunes.service_habitosconsumerweb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -24,21 +27,21 @@ public class TarefaController {
 	@Autowired
 	private HabitosClient habitosClient;
 
+	@ResponseBody
 	@GetMapping("/meta/{id}")
-	public ModelAndView listar(Model model, @PathVariable Long id) {
+	public ResponseEntity<?> listar(Model model, @PathVariable Long id) {
 
 		MetaDTO meta = habitosClient.detalharMeta(id);
-		model.addAttribute("meta", meta);
-		model.addAttribute("tarefa", new TarefaFormCadastroDTO(meta));
 
-		return new ModelAndView("pages/tarefa/tarefas", model.asMap());
+		return new ResponseEntity<>(meta, HttpStatus.OK);
 	}
 
+	@ResponseBody
 	@PostMapping
-	public ModelAndView cadastrarTarefa(Model model, @ModelAttribute("tarefa") TarefaFormCadastroDTO tarefaForm) {
+	public ResponseEntity<?> cadastrarTarefa(Model model, @ModelAttribute("tarefa") TarefaFormCadastroDTO tarefaForm) {
 
 		TarefaDTO tarefaDTO = habitosClient.cadastrarTarefa(tarefaForm);
-		return new ModelAndView(new RedirectView("/tarefa/meta/" + tarefaDTO.getMetaId()), model.asMap());
+		return new ResponseEntity<>(tarefaDTO, HttpStatus.OK);
 	}
 
 	@PostMapping("/remover/{id}")

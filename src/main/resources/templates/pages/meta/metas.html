@@ -72,21 +72,18 @@
 											<td th:text='${meta.dataConclusao}'></td>
 											<td th:text='${meta.status}'></td>
 											<td>
-												<form id="formDetalhar"
-													th:action="@{/tarefa/meta/} + ${meta.id}"
-													method="GET">
-													<button type="submit" class="btn btn-primary">
-														<i class="far fa-eye"></i>
-													</button>
-												</form>
-												<button onclick="editar(this)" type="button"
-													class="btn btn-success" data-toggle="modal"
-													data-target="#edtMetaModal">
-													<i class="fas fa-edit"></i>
-												</button>
+												<!-- 												<form id="formDetalhar" --> <!-- 													th:action="@{/tarefa/meta/} + ${meta.id}" -->
+												<!-- 													method="GET"> -->
+												<button type="submit" onclick="info(this)"
+													class="btn btn-primary" data-toggle="modal"
+													data-target="#infoMetaModal">
+													<i class="far fa-eye"></i>
+												</button> <!-- 												</form> --> <!-- 												<button onclick="editar(this)" type="button" -->
+												<!-- 													class="btn btn-success" data-toggle="modal" -->
+												<!-- 													data-target="#edtMetaModal"> --> <!-- 													<i class="fas fa-edit"></i> -->
+												<!-- 												</button> -->
 												<form id="formRemover"
-													th:action="@{/meta/remover/} + ${meta.id}"
-													method="post">
+													th:action="@{/meta/remover/} + ${meta.id}" method="post">
 													<button type="submit" class="btn btn-danger">
 														<i class="far fa-trash-alt"></i>
 													</button>
@@ -116,19 +113,181 @@
 	<div th:include="fragments/logout-modal"></div>
 	<div th:include="fragments/scripts"></div>
 	<div th:include="pages/meta/meta-cad-modal"></div>
-	<div th:include="pages/meta/meta-edt-modal"></div>
+	<!-- 	<div th:include="pages/meta/meta-edt-modal"></div> -->
+	<div th:include="pages/meta/meta-info-modal"></div>
 	<script>
-		function editar(e) {
+		function info(e) {
 			var _row = $(e).parents("tr");
 			var cols = _row.children("td");
-			$("#metaNomeEdt").val($(cols[1]).text());
-			$("#metaDescricaoEdt").val($(cols[2]).text());
-			$("#metaDataInicioEdt").val($(cols[3]).text());
-			$("#metaDataConclusaoEdt").val($(cols[4]).text());
-			$('#formEdt')
-					.attr('action', '/meta/atualizar/' + $(cols[0]).text());
+			var id = $(cols[0]).text();
+			var nome = $(cols[1]).text();
+			var desc = $(cols[2]).text();
+			var dataInicio = $(cols[3]).text();
+			var dataConclusao = $(cols[4]).text();
+			var status = $(cols[5]).text();
+
+			$("#list-tarefas").html("");
+			setItemSelected(0);
+
+			// 			Preenche informações no modal info
+			$('#infoMetaModal #idInfo').text(id);
+			$('#infoMetaModal #nomeInfo').text(nome);
+			$('#infoMetaModal #descricaoInfo').text(desc);
+			$('#infoMetaModal #dataInicioInfo').text(dataInicio);
+			$('#infoMetaModal #dataConclusaoInfo').text(dataConclusao);
+			$('#infoMetaModal #statusInfo').text(status);
+
+			// 			Preenche informações nos campos de alteração
+			$('#infoMetaModal #idEdt').val(id);
+			$('#infoMetaModal #nomeEdt').val(nome);
+			$('#infoMetaModal #descricaoEdt').val(desc);
+			$('#infoMetaModal #dataInicioEdt').val(dataInicio);
+			$('#infoMetaModal #dataConclusaoEdt').val(dataConclusao);
+			$('#formEdt').attr('action', '/meta/atualizar/' + id);
+
+			// Preenche id da meta
+			$('#addIdMeta').val(id);
+
+			// Realiza a busca das tarefas vinculadas a meta
+			getTarefasByMeta(id);
 
 		}
+
+		function getTarefasByMeta(id) {
+			$.ajax({
+						type : 'GET',
+						url : '/tarefa/meta/' + id,
+						dataType : 'json',
+						async : true,
+						success : function(data) {
+							console.log(data);
+							var tarefas = data.tarefas;
+
+							if (tarefas.length > 0) {
+								for (var i = 0; i < tarefas.length; i++) {
+									addTarefaListGroup(tarefas[i]);
+								}
+							}
+						},
+						error : function(error) {
+							console.log(error);
+							swal({
+								title : "Falha",
+								text : "Não foi possivel buscar as tarefas desta Meta!",
+								type : "error"
+							});
+						}
+					});
+		}
+
+		function addTarefaListGroup(tarefa) {
+			var id = tarefa.id;
+			var nome = "<a class='list-group-item list-group-item-action' onClick='setItemSelected("
+					+ id
+					+ ")' id='list-item-"
+					+ id
+					+ "' data-toggle='list' href='#list-"
+					+ id
+					+ "' role='tab' aria-controls='home'>"
+					+ tarefa.nome
+					+ "</a>";
+			var desc = "<div class='tab-pane fade' id='list-" + id + "' role='tabpanel' aria-labelledby='list-home-list'>"
+					+ tarefa.descricao + "</div>"
+			$("#list-tarefas").append(nome);
+			$("#list-desc").append(desc);
+
+		}
+		
+		function removeTarefaListGroup(id) {
+			$('#list-item-' + id).remove();
+		}
+
+		function setItemSelected(id) {
+			$("#itemSelected").val(id);
+		}
+
+		function salvarTarefa() {
+			var metaId = $('#addIdMeta').val();
+			console.log("Meta ID: " + metaId)
+			var nome = $('#addNomeTarefa').val();
+			var descricao = $("#addDescricaoTarefa").val();
+
+			$.ajax({
+						type : 'POST',
+						url : '/tarefa',
+						dataType : 'json',
+						async : true,
+						data : {
+							metaId : metaId,
+							nome : nome,
+							descricao : descricao
+						},
+						success : function(data) {
+							addTarefaListGroup(data);
+						},
+						error : function(error) {
+							console.log(error);
+							swal({
+								title : "Falha",
+								text : "Não foi possivel salvar a tarefa, tente novamente!",
+								type : "error"
+							});
+						}
+					});
+		}
+		
+		function deleteTarefa(id){
+			$.ajax({
+				type : 'POST',
+				url : '/tarefa/remover/' + id,
+				dataType : 'json',
+				async : true,
+				success : function(data) {
+					removeTarefaListGroup(id);
+				},
+				error : function(error) {
+					console.log(error);
+					swal({
+						title : "Falha",
+						text : "Não foi possivel deletar a tarefa, tente novamente!",
+						type : "error"
+					});
+				}
+			});
+		}
+
+		$('#btn-edit-meta').on("click", function() {
+			$('#edtMeta').slideToggle();
+			$('#visualizar').slideToggle();
+		});
+
+		$('#btn-edit-cancelar').on("click", function() {
+			$('#visualizar').slideToggle();
+			$('#edtMeta').slideToggle();
+		});
+
+		$('#btn-tarefa-cancelar').on("click", function() {
+			$('#tarefas').slideToggle();
+			$('#visualizar').slideToggle();
+		});
+
+		$('#btn-tarefas').on("click", function() {
+			$('#tarefas').slideToggle();
+			$('#visualizar').slideToggle();
+		});
+
+		$('#btn-add-tarefa').on("click", function() {
+			salvarTarefa();
+		});
+
+		$('#btn-delete-tarefa').on("click", function() {
+			var id = $("#itemSelected").val();
+			if (id != 0){
+				deleteTarefa(id);
+				$("#itemSelected").val(0)
+			}
+		});
+		
 	</script>
 </body>
 
