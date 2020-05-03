@@ -72,16 +72,11 @@
 											<td th:text='${meta.dataConclusao}'></td>
 											<td th:text='${meta.status}'></td>
 											<td>
-												<!-- 												<form id="formDetalhar" --> <!-- 													th:action="@{/tarefa/meta/} + ${meta.id}" -->
-												<!-- 													method="GET"> -->
 												<button type="submit" onclick="info(this)"
 													class="btn btn-primary" data-toggle="modal"
 													data-target="#infoMetaModal">
 													<i class="far fa-eye"></i>
-												</button> <!-- 												</form> --> <!-- 												<button onclick="editar(this)" type="button" -->
-												<!-- 													class="btn btn-success" data-toggle="modal" -->
-												<!-- 													data-target="#edtMetaModal"> --> <!-- 													<i class="fas fa-edit"></i> -->
-												<!-- 												</button> -->
+												</button> 
 												<form id="formRemover"
 													th:action="@{/meta/remover/} + ${meta.id}" method="post">
 													<button type="submit" class="btn btn-danger">
@@ -285,6 +280,7 @@
 			if (id != 0){
 				deleteTarefa(id);
 				$("#itemSelected").val(0)
+				
 			}
 		});
 		

@@ -15,9 +15,9 @@
 	<name>service-habitos-consumer-web</name>
 	<description>Microserviços Consumidor Web de Hábitos Web</description>
 
-	<properties>
-		<java.version>14</java.version>
-	</properties>
+<!-- 	<properties> -->
+<!-- 		<java.version>14</java.version> -->
+<!-- 	</properties> -->
 
 	<dependencies>
 		<dependency>
